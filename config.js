@@ -1,1 +1,1 @@
-window.GL_CONFIG = {"owner":"kingdomgio","repo":"gamelife-tracker","branch":"main"};
+window.GL_CONFIG = {"owner":"kingdomgio","repo":"gamelife-tracker","branch":"main","private":false};

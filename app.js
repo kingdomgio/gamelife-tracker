@@ -66,6 +66,7 @@ function renderHeader() {
   $('#connectBtn').hidden = GH.connected;
   $('#runNow').hidden = !GH.connected;
   $('#roBanner').hidden = GH.connected || !GH.repo.owner;
+  if (IS_PRIVATE && !GH.connected) $('#roBanner').innerHTML = 'Repository privato. <button class="link-btn" data-open-connect>Collega questo dispositivo</button> con il tuo token per vedere prezzi e avvisi.';
   $$('.needs-token').forEach(b => b.disabled = !GH.connected);
   const chip = $('#runChip');
   const r = lastRun;
@@ -177,7 +178,9 @@ function renderAll() {
   $('#emptyState').hidden = has;
   $('#catalogWrap').hidden = !has;
   $('#firstRun').hidden = !GH.connected;
-  if (!GH.connected && !has) $('#emptyText').textContent = 'Il primo controllo non è ancora stato fatto. Collega questo dispositivo dal Profilo per avviarlo, oppure attendi il controllo automatico.';
+  if (!GH.connected && !has) $('#emptyText').textContent = IS_PRIVATE
+    ? 'Il tuo repository è privato: collega questo dispositivo (Profilo → Collega questo dispositivo) per vedere prezzi e avvisi.'
+    : 'Il primo controllo non è ancora stato fatto. Collega questo dispositivo dal Profilo per avviarlo, oppure attendi il controllo automatico.';
   $('#alertCount').textContent = Object.keys(DB.alerts).length;
   renderHeader();
   if (has) { renderKpis(); renderList(); }
@@ -370,17 +373,23 @@ async function waitForLog(since, type, onDone) {
 }
 
 // ---------- app Android ----------
+const IS_PRIVATE = !!(window.GL_CONFIG && window.GL_CONFIG.private);
 const IS_NATIVE = !!(window.Capacitor && (typeof Capacitor.isNativePlatform === 'function' ? Capacitor.isNativePlatform() : Capacitor.platform && Capacitor.platform !== 'web'));
 async function setupApkCard() {
   if (IS_NATIVE) { ['#apkCard', '#pwaCard'].forEach(s => { const e = $(s); if (e) e.hidden = true; }); const ex = $('#exportBtn'); if (ex) ex.closest('.card').hidden = true; return; }
   const { owner, repo } = GH.repo;
+  if (location.protocol === 'file:' || IS_PRIVATE) { const pc = $('#pwaCard'); if (pc) pc.hidden = true; }
   $('#apkLink').href = `https://github.com/${owner}/${repo}/releases/download/app/GameLife-Tracker.apk`;
   try {
-    const r = await fetch(`https://api.github.com/repos/${owner}/${repo}/releases/tags/app`, { headers: { Accept: 'application/vnd.github+json' } });
+    if (IS_PRIVATE && !GH.connected) { $('#apkStatus').textContent = 'Repository privato: dal telefono accedi prima a github.com nel browser, poi tocca Scarica l\'app.'; return; }
+    const r = IS_PRIVATE
+      ? await fetch(`https://api.github.com/repos/${owner}/${repo}/releases/tags/app`, { headers: { Accept: 'application/vnd.github+json', Authorization: 'Bearer ' + (GH.store.get('gl_token') || '') } })
+      : await fetch(`https://api.github.com/repos/${owner}/${repo}/releases/tags/app`, { headers: { Accept: 'application/vnd.github+json' } });
+    if (IS_PRIVATE) $('#apkStatus').dataset.private = '1';
     if (r.status === 404) { $('#apkStatus').innerHTML = `L'app non è ancora pronta: GitHub la prepara da sola dopo l'installazione (circa 10 minuti). Puoi seguirla su <a href="https://github.com/${owner}/${repo}/actions" target="_blank" rel="noopener">GitHub Actions</a>.`; return; }
     const rel = await r.json();
     const asset = (rel.assets || []).find(a => /\.apk$/i.test(a.name));
-    if (asset) $('#apkStatus').textContent = `Versione aggiornata il ${tf.format(new Date(asset.updated_at))} · ${(asset.size / 1048576).toFixed(1)} MB`;
+    if (asset) $('#apkStatus').textContent = `Versione aggiornata il ${tf.format(new Date(asset.updated_at))} · ${(asset.size / 1048576).toFixed(1)} MB` + (IS_PRIVATE ? ' · repository privato: dal telefono devi aver fatto l\'accesso a github.com nel browser.' : '');
   } catch { /* stato non disponibile */ }
 }
 
@@ -474,7 +483,7 @@ function bind() {
   $('#connectForm').addEventListener('submit', async (e) => {
     e.preventDefault();
     const f = e.target; msgIn(f, 'Verifica…');
-    try { await GH.connect(f.token.value); f.token.value = ''; msgIn(f, ''); $('#connectDlg').close(); await loadAll(); renderAll(); pollRuns(); }
+    try { await GH.connect(f.token.value); f.token.value = ''; msgIn(f, ''); $('#connectDlg').close(); await loadAll(); renderAll(); setupApkCard(); pollRuns(); }
     catch (err) { msgIn(f, err.message); }
   });
 

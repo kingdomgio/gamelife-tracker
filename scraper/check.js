@@ -20,6 +20,13 @@ const BLOCKED_EXIT = 42;
 const UA = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36';
 
 const file = (rel) => path.join(ROOT, rel);
+// indirizzo della dashboard web da mettere nelle notifiche (vuoto se il repository è privato)
+function dashboardUrl() {
+  if (process.env.DASHBOARD_URL) return process.env.DASHBOARD_URL;
+  try { const r = JSON.parse(fs.readFileSync(file('config/repo.json'), 'utf8')); if (r.private) return ''; if (r.dashboardUrl) return r.dashboardUrl; } catch { /* nessun file */ }
+  const [o, n] = String(process.env.GITHUB_REPOSITORY || '').split('/');
+  return o && n ? `https://${o}.github.io/${n}/` : '';
+}
 function readJSON(rel, def) { try { return JSON.parse(fs.readFileSync(file(rel), 'utf8')); } catch { return def; } }
 const written = new Set();
 function writeJSON(rel, obj, pretty) {
@@ -210,7 +217,7 @@ function evaluateAlerts(onlyId) {
 }
 
 async function notifyHits(hits, settings) {
-  const msg = GLNotify.buildMessage(hits, { dashboardUrl: process.env.DASHBOARD_URL || '' });
+  const msg = GLNotify.buildMessage(hits, { dashboardUrl: dashboardUrl() });
   const results = await GLNotify.sendAll(notifyConfig(settings), msg);
   addLog({ type: 'alert', title: msg.title, body: msg.body, results, ids: hits.map(h => h.product.id) });
   console.log('Avvisi inviati:', hits.length, JSON.stringify(results));
@@ -225,7 +232,7 @@ async function main(argv = process.argv.slice(2)) {
   const { date: today, hour } = nowParts(settings.timezone || 'Europe/Rome');
 
   if (mode === 'test') {
-    const msg = { title: 'Notifica di prova GameLife Tracker', body: 'Se leggi questo messaggio, il canale funziona. Riceverai qui gli avvisi quando un titolo PS5 scende sotto il tuo prezzo obiettivo.' + (process.env.DASHBOARD_URL ? `\n\nDashboard: ${process.env.DASHBOARD_URL}` : ''), click: process.env.DASHBOARD_URL || 'https://www.gamelife.it/29-playstation-5' };
+    const msg = { title: 'Notifica di prova GameLife Tracker', body: 'Se leggi questo messaggio, il canale funziona. Riceverai qui gli avvisi quando un titolo PS5 scende sotto il tuo prezzo obiettivo.' + (dashboardUrl() ? `\n\nDashboard: ${dashboardUrl()}` : ''), click: dashboardUrl() || 'https://www.gamelife.it/29-playstation-5' };
     const results = await GLNotify.sendAll(notifyConfig(settings), msg);
     addLog({ type: 'test', title: msg.title, body: msg.body, results });
     console.log('Prova:', JSON.stringify(results));
@@ -262,7 +269,7 @@ async function main(argv = process.argv.slice(2)) {
     // un solo avviso di errore al giorno, per non riempirti di messaggi
     if (state.lastErrorNotified !== today) {
       state.lastErrorNotified = today;
-      await GLNotify.sendAll(notifyConfig(settings), { title: 'GameLife Tracker: controllo non riuscito', body: `Oggi non sono riuscito a leggere il catalogo: ${state.lastError.message}\nRiprovo automaticamente ogni ora.` + (process.env.DASHBOARD_URL ? `\n\nDashboard: ${process.env.DASHBOARD_URL}` : ''), click: process.env.DASHBOARD_URL || CATEGORY }).catch(() => {});
+      await GLNotify.sendAll(notifyConfig(settings), { title: 'GameLife Tracker: controllo non riuscito', body: `Oggi non sono riuscito a leggere il catalogo: ${state.lastError.message}\nRiprovo automaticamente ogni ora.` + (dashboardUrl() ? `\n\nDashboard: ${dashboardUrl()}` : ''), click: dashboardUrl() || CATEGORY }).catch(() => {});
     }
     writeJSON('data/state.json', state, true);
     console.error('Errore:', state.lastError.message);
