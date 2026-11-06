@@ -1,0 +1,16 @@
+{
+  "name": "GameLife Tracker PS5",
+  "short_name": "GL Tracker",
+  "description": "Storico prezzi e avvisi per i giochi PS5 di GameLife, nuovo e usato.",
+  "lang": "it",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f5f5f3",
+  "theme_color": "#1f4fd1",
+  "icons": [
+    { "src": "icons/icon192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icons/icon512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "icons/maskable512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

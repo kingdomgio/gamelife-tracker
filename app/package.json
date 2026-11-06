@@ -1,0 +1,17 @@
+{
+  "name": "gamelife-tracker-app",
+  "private": true,
+  "version": "1.0.0",
+  "description": "App Android di GameLife Tracker PS5 (Capacitor)",
+  "scripts": {
+    "prepare-web": "node prepare-web.js",
+    "sync": "node prepare-web.js && npx cap sync android"
+  },
+  "dependencies": {
+    "@capacitor/android": "8.5.3",
+    "@capacitor/core": "8.5.3"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "8.5.3"
+  }
+}

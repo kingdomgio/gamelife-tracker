@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>GameLife Tracker PS5</title>
+  <meta name="description" content="Storico prezzi e avvisi per i giochi PS5 di GameLife, nuovo e usato.">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#1f4fd1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="GL Tracker">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon32.png">
+  <link rel="apple-touch-icon" href="icons/icon180.png">
+  <link rel="stylesheet" href="app.css">
+  <script>
+    // tema scelto (chiaro/scuro) applicato prima del disegno della pagina, per evitare lampi
+    (function () { try { var t = localStorage.getItem('gl_theme'); if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t); } catch (e) {} })();
+  </script>
+</head>
+<body>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
+    <path id="lg-g" fill="currentColor" d="M459.7,892.3C447.6,891.6 432.1,889.2 420.8,886.2C419.7,885.9 418.3,885.5 417.6,885.3C416.9,885.1 414.8,884.5 412.8,883.8C409.6,882.7 408.6,882.4 406.8,881.6C406.5,881.5 404.7,880.8 403.0,880.1C393.2,876.4 382.3,870.2 373.1,863.1C369.3,860.2 359.7,850.6 356.9,847.0C349.4,837.3 344.1,827.2 340.0,815.0C337.9,808.8 335.9,798.9 335.9,793.9L335.8,791.8L378.5,791.7C402.0,791.7 421.5,791.7 421.9,791.8C422.4,792.0 422.6,792.3 422.8,793.5C423.7,799.6 427.9,807.4 432.8,812.5C437.9,817.7 447.0,822.3 456.0,824.3C469.6,827.3 483.5,827.4 496.3,824.5C502.9,823.0 511.6,819.7 515.5,817.2C524.1,811.8 529.0,807.1 533.5,800.3C536.2,796.3 537.1,794.4 539.3,789.5C542.4,782.3 544.0,776.4 545.2,768.7C546.5,759.4 546.6,756.9 546.7,740.1C546.7,731.0 546.7,723.3 546.7,723.1C546.7,722.1 545.9,722.8 544.2,725.4C539.5,732.6 531.3,741.0 522.4,747.6C513.6,754.1 501.5,759.7 489.2,763.1C486.5,763.9 478.0,765.5 473.5,766.1C456.6,768.5 434.1,766.8 419.3,762.0C406.7,757.8 395.7,752.6 386.3,746.2C379.1,741.2 370.9,734.3 366.8,729.8C357.0,718.9 354.1,715.0 347.4,703.3C342.7,695.1 339.2,687.6 336.0,678.2C331.8,665.9 330.1,659.0 328.0,645.2C326.5,635.8 326.3,633.3 326.1,621.3C325.8,604.6 326.9,591.5 329.7,578.9C330.1,577.2 330.5,575.2 330.7,574.5C332.0,567.9 334.9,558.4 338.3,549.5C342.8,537.5 351.6,521.8 359.3,512.0C372.4,495.5 386.2,484.1 403.3,475.6C409.1,472.8 418.1,469.4 423.5,468.0C424.1,467.8 425.9,467.4 427.7,466.9C429.4,466.5 432.3,465.8 434.0,465.5C435.7,465.2 437.9,464.8 438.8,464.7C444.5,463.6 450.9,463.2 460.5,463.2C472.3,463.2 476.6,463.6 487.5,465.7C502.5,468.6 515.9,475.4 527.5,485.9C533.7,491.5 541.4,501.2 544.8,507.8C545.4,508.9 546.0,509.8 546.3,509.8C546.6,509.8 546.7,505.7 546.7,492.2C546.7,482.4 546.9,474.2 547.1,473.9C547.3,473.4 549.5,473.3 587.6,473.4L627.8,473.5L627.9,617.8C628.0,747.4 628.0,762.9 627.5,769.0C626.7,779.2 625.3,788.6 623.5,795.2C622.2,800.0 621.9,800.9 621.6,801.8C621.4,802.4 621.2,803.3 621.0,803.8C620.7,804.8 620.5,805.5 619.5,808.3C617.8,813.1 616.1,817.0 613.7,821.7C610.3,828.2 609.9,829.1 608.9,830.6C608.4,831.4 608.0,832.1 608.0,832.2C608.0,832.3 606.9,833.8 605.6,835.6C604.2,837.4 602.9,839.2 602.6,839.7C601.8,841.0 597.9,845.8 595.4,848.5C592.5,851.8 584.5,859.0 579.8,862.7C576.6,865.2 571.2,869.0 570.8,869.0C570.8,869.0 570.1,869.4 569.3,870.0C565.7,872.3 554.5,878.0 549.2,880.1C547.3,880.8 545.5,881.5 545.2,881.6C543.3,882.4 534.6,885.2 530.7,886.2C513.0,890.8 496.7,892.7 475.0,892.6C469.4,892.6 462.5,892.4 459.7,892.3ZM491.0,699.5C499.8,698.2 508.5,694.8 515.8,689.6C519.5,687.0 526.5,680.1 529.1,676.5C537.0,665.3 542.4,651.7 545.0,636.8C546.3,629.1 546.8,622.5 546.5,612.7C546.3,600.7 545.4,593.9 542.8,584.0C542.0,580.8 539.9,574.4 539.4,573.2C539.2,572.8 538.4,571.0 537.5,569.1C533.4,560.0 528.9,553.1 523.0,547.3C514.2,538.6 503.6,533.2 491.2,531.1C485.5,530.2 474.6,530.3 468.8,531.3C462.1,532.4 457.1,534.1 450.5,537.4C441.5,541.9 433.5,549.5 426.8,559.8C425.4,562.1 423.4,565.9 421.6,570.0C421.3,570.8 420.8,571.9 420.5,572.5C419.5,574.7 417.9,579.8 417.0,583.3C416.9,584.0 416.6,585.2 416.4,586.0C416.0,587.8 415.2,591.8 414.5,595.7C412.0,610.0 413.5,635.2 417.7,648.1C419.4,653.6 420.4,656.6 420.7,656.8C420.9,657.0 421.0,657.4 421.0,657.6C421.0,658.6 425.9,668.2 428.0,671.3C433.0,678.8 436.7,683.0 442.5,687.4C449.1,692.5 457.2,696.4 465.2,698.3C467.7,699.0 472.6,699.8 475.0,700.1C477.2,700.4 487.8,700.0 491.0,699.5Z"/>
+    <rect id="lg-bar" fill="#FD5100" x="645.7" y="388.7" width="84.3" height="382.0"/>
+    <path id="lg-t" fill="currentColor" d="M858.3,779.1C848.3,778.6 842.8,777.7 833.9,775.5C825.9,773.5 821.4,771.8 814.2,767.9C806.9,764.1 801.2,759.0 795.6,751.5C793.2,748.2 792.1,746.2 789.0,739.2C787.4,735.7 786.5,733.1 785.8,730.2C785.5,729.1 785.1,727.3 784.9,726.3C783.6,721.3 783.3,719.9 782.8,716.5C781.7,708.3 781.6,703.7 781.7,620.2C781.7,562.4 781.6,537.1 781.3,536.7C781.0,536.0 780.6,536.0 762.1,536.0C747.8,536.0 743.0,535.9 742.7,535.6C742.1,535.0 742.2,474.6 742.8,473.9C743.2,473.5 746.5,473.5 762.1,473.4C772.5,473.4 781.1,473.3 781.3,473.2C781.5,473.1 781.6,458.4 781.6,432.2C781.6,409.7 781.6,391.3 781.7,391.2C781.9,391.0 865.4,390.7 865.9,390.9C866.2,391.0 866.3,399.5 866.3,432.0C866.3,455.5 866.5,473.0 866.6,473.1C866.8,473.2 880.6,473.3 897.3,473.3C917.2,473.3 928.0,473.5 928.4,473.7C929.0,474.0 929.0,474.9 929.0,504.7C929.0,533.9 929.0,535.3 928.4,535.6C928.0,535.8 916.3,536.0 897.5,536.0C876.2,536.0 867.1,536.1 866.8,536.4C866.4,536.7 866.3,548.4 866.3,601.5C866.3,674.6 866.4,677.4 868.6,685.3C870.3,691.7 872.1,695.1 875.5,698.3C881.6,704.1 888.7,706.1 902.2,706.1C910.2,706.1 918.5,705.1 926.1,703.2C927.3,702.9 928.5,702.7 928.7,702.8C929.1,703.1 929.1,770.2 928.7,770.5C928.2,770.8 919.8,773.0 914.3,774.3C909.5,775.4 903.3,776.6 899.7,777.1C897.7,777.4 894.5,777.9 892.5,778.1C888.3,778.7 872.9,779.7 868.7,779.6C867.1,779.6 862.5,779.4 858.3,779.1Z"/>
+  </defs></svg>
+  <header class="top">
+    <div class="brand">
+      <svg class="brand-logo" viewBox="326.0 388.7 603.0 504.0" role="img" aria-label="GameLife Tracker"><use href="#lg-g"/><use href="#lg-bar"/><use href="#lg-t"/></svg>
+      <div>
+        <h1>GameLife Tracker <span class="muted">PS5</span></h1>
+        <div id="runInfo" class="run-info">Caricamento…</div>
+      </div>
+    </div>
+    <div class="top-actions">
+      <span id="runChip" class="run-chip" hidden></span>
+      <button id="themeBtn" class="icon-toggle" type="button" aria-label="Tema" title="Tema"></button>
+      <button id="connectBtn" class="btn" hidden>Collega dispositivo</button>
+      <button id="runNow" class="btn primary" hidden>Controlla ora</button>
+    </div>
+  </header>
+
+  <div id="roBanner" class="banner" hidden>
+    Stai guardando in sola lettura. <button class="link-btn" data-open-connect>Collega questo dispositivo</button> per impostare prezzi obiettivo e notifiche.
+  </div>
+
+  <nav class="tabs" role="tablist">
+    <button role="tab" data-tab="catalog" aria-selected="true">Catalogo</button>
+    <button role="tab" data-tab="alerts">I miei avvisi <span id="alertCount" class="pill">0</span></button>
+    <button role="tab" data-tab="log">Notifiche</button>
+    <button role="tab" data-tab="profile">Profilo</button>
+  </nav>
+
+  <main>
+    <!-- CATALOGO -->
+    <section id="tab-catalog" class="tab">
+      <div id="emptyState" class="empty" hidden>
+        <h2>Nessun dato ancora</h2>
+        <p id="emptyText">Il primo controllo legge tutto il catalogo giochi PS5 di GameLife (circa 60 pagine) e impiega qualche minuto. Da lì in poi parte da solo ogni giorno.</p>
+        <button id="firstRun" class="btn primary">Avvia il primo controllo</button>
+      </div>
+      <div id="catalogWrap" hidden>
+        <div class="kpis" id="kpis"></div>
+        <div class="toolbar">
+          <input id="q" type="search" placeholder="Cerca un titolo…" aria-label="Cerca un titolo">
+          <select id="fAvail" aria-label="Disponibilità">
+            <option value="all">Tutte le disponibilità</option>
+            <option value="any">Disponibile (nuovo o usato)</option>
+            <option value="new">Nuovo disponibile</option>
+            <option value="used">Usato disponibile</option>
+          </select>
+          <select id="fType" aria-label="Tipo">
+            <option value="all">Preordini inclusi</option>
+            <option value="instock">Solo già usciti</option>
+            <option value="preorder">Solo preordini</option>
+          </select>
+          <select id="fSpecial" aria-label="Filtro">
+            <option value="all">Tutti i titoli</option>
+            <option value="drop">In calo (ultimi 7 giorni)</option>
+            <option value="atmin">Al minimo storico</option>
+            <option value="sale">In sconto</option>
+            <option value="alerts">Con avviso attivo</option>
+            <option value="fresh">Nuovi in catalogo</option>
+            <option value="gone">Usciti dal catalogo</option>
+          </select>
+          <select id="fSort" aria-label="Ordina">
+            <option value="name">Ordina: nome A–Z</option>
+            <option value="newAsc">Prezzo nuovo crescente</option>
+            <option value="newDesc">Prezzo nuovo decrescente</option>
+            <option value="usedAsc">Prezzo usato crescente</option>
+            <option value="drop">Maggior calo di prezzo</option>
+            <option value="recent">Ultimi arrivati</option>
+          </select>
+        </div>
+        <div class="table-head" aria-hidden="true">
+          <span></span><span>Titolo</span><span class="num">Nuovo</span><span class="num">Usato</span><span class="num">Var. 7 gg</span><span></span>
+        </div>
+        <div id="list" class="list"></div>
+        <div class="more"><span id="listCount" class="muted"></span><button id="moreBtn" class="btn">Mostra altri</button></div>
+      </div>
+    </section>
+
+    <!-- AVVISI -->
+    <section id="tab-alerts" class="tab" hidden>
+      <p class="hint">Ricevi una notifica quando un titolo scende al tuo prezzo obiettivo o sotto. Se il prezzo continua a scendere ti avviso di nuovo; se risale sopra la soglia, l'avviso si riarma.</p>
+      <div id="alertsList" class="list"></div>
+    </section>
+
+    <!-- LOG -->
+    <section id="tab-log" class="tab" hidden>
+      <div id="logList" class="log"></div>
+    </section>
+
+    <!-- PROFILO -->
+    <section id="tab-profile" class="tab" hidden>
+      <div class="settings">
+        <div class="card" id="deviceCard">
+          <h3>Questo dispositivo</h3>
+          <div id="deviceState"></div>
+        </div>
+
+        <div class="card">
+          <h3>Aspetto</h3>
+          <div class="seg" role="group" aria-label="Tema" id="themeSeg">
+            <button type="button" data-theme-set="auto">Automatico</button>
+            <button type="button" data-theme-set="light">Chiaro</button>
+            <button type="button" data-theme-set="dark">Scuro</button>
+          </div>
+          <p class="hint">Automatico segue l'impostazione chiaro/scuro del dispositivo.</p>
+        </div>
+
+        <div class="card apk-card" id="apkCard">
+          <h3>App Android</h3>
+          <p class="hint">Installa GameLife Tracker come app sul tuo telefono Android. Si aggiorna con una nuova versione ogni volta che il progetto cambia.</p>
+          <ol class="steps">
+            <li>Dal telefono Android tocca <b>Scarica l'app</b> qui sotto.</li>
+            <li>Apri il file scaricato: se richiesto, consenti al browser di <b>installare app sconosciute</b>.</li>
+            <li>Apri l'app, vai su <b>Profilo → Collega questo dispositivo</b> e incolla il token.</li>
+          </ol>
+          <a class="btn primary" id="apkLink" href="#" target="_blank" rel="noopener">Scarica l'app (APK)</a>
+          <p class="hint" id="apkStatus"></p>
+        </div>
+
+        <div class="card" id="pwaCard">
+          <h3>Installa come app</h3>
+          <ul class="steps plain">
+            <li><b>iPhone / iPad (Safari):</b> tocca Condividi <span aria-hidden="true">⎋</span> → <i>Aggiungi alla schermata Home</i>.</li>
+            <li><b>Android (Chrome):</b> menu ⋮ → <i>Installa app</i> o <i>Aggiungi a schermata Home</i>.</li>
+            <li><b>Computer (Chrome / Edge):</b> icona di installazione nella barra degli indirizzi, oppure salva la pagina nei preferiti.</li>
+          </ul>
+        </div>
+
+        <form id="settingsForm" class="card" autocomplete="off">
+          <h3>Controllo automatico</h3>
+          <label class="row">Orario del controllo giornaliero
+            <select name="checkHour" id="checkHour"></select>
+          </label>
+          <p class="hint">Il controllo gira sui server di GitHub, anche a computer spento. GitHub può avviarlo con qualche minuto di ritardo.</p>
+          <label class="check"><input type="checkbox" name="onlyAvailableDefault"> Nei nuovi avvisi, avvisami solo se il titolo è disponibile</label>
+          <div class="form-actions"><button type="submit" class="btn primary needs-token">Salva</button><span class="muted" data-msg role="status"></span></div>
+        </form>
+
+        <form class="card channel" data-channel="push" autocomplete="off">
+          <h3>Push su telefono, tablet e computer (ntfy) <span class="sec-state" data-state="NTFY_TOPIC"></span></h3>
+          <label class="check"><input type="checkbox" name="pushEnabled"> Invia notifiche push</label>
+          <label class="row">Il tuo canale personale
+            <span class="inline"><input type="text" name="NTFY_TOPIC" placeholder="Premi «Genera» per crearne uno" spellcheck="false"><button type="button" class="btn small" id="genTopic">Genera</button><button type="button" class="btn small" id="copyTopic">Copia</button></span>
+          </label>
+          <ol class="steps">
+            <li>Installa l'app gratuita <b>ntfy</b> (App Store, Google Play) oppure apri <b>ntfy.sh/app</b> sul computer.</li>
+            <li>Tocca <b>+</b>, inserisci il canale qui sopra e conferma (server: ntfy.sh).</li>
+            <li>Salva e premi <b>Invia notifica di prova</b> in fondo alla pagina.</li>
+          </ol>
+          <p class="hint">Il canale è casuale e resta segreto su GitHub: annotalo, per motivi di sicurezza non si può rileggere da un altro dispositivo.</p>
+          <div class="form-actions"><button type="submit" class="btn primary needs-token">Salva</button><button type="button" class="btn danger needs-token" data-clear>Rimuovi</button><span class="muted" data-msg role="status"></span></div>
+        </form>
+
+        <form class="card channel" data-channel="email" autocomplete="off">
+          <h3>Email <span class="sec-state" data-state="EMAIL"></span></h3>
+          <label class="row">Indirizzo email <input type="email" name="EMAIL" placeholder="nome@esempio.it"></label>
+          <p class="hint">Inviata tramite ntfy.sh (serve il canale qui sopra, anche con le push spente). Alla prima ricezione controlla lo spam.</p>
+          <div class="form-actions"><button type="submit" class="btn primary needs-token">Salva</button><button type="button" class="btn danger needs-token" data-clear>Rimuovi</button><span class="muted" data-msg role="status"></span></div>
+        </form>
+
+        <form class="card channel" data-channel="telegram" autocomplete="off">
+          <h3>Telegram <span class="sec-state" data-state="TELEGRAM_TOKEN"></span></h3>
+          <label class="row">Token del bot <input type="text" name="TELEGRAM_TOKEN" placeholder="123456789:ABC…" spellcheck="false"></label>
+          <label class="row">Chat ID <span class="inline"><input type="text" name="TELEGRAM_CHAT_ID" placeholder="es. 123456789"><button type="button" class="btn small" id="findChat">Trova chat ID</button></span></label>
+          <ol class="steps">
+            <li>Su Telegram apri <b>@BotFather</b>, invia <code>/newbot</code> e scegli un nome: ricevi il token.</li>
+            <li>Apri il tuo nuovo bot e inviagli un messaggio qualsiasi (es. "ciao").</li>
+            <li>Incolla il token e premi <b>Trova chat ID</b>, poi <b>Salva</b>.</li>
+          </ol>
+          <div class="hint" data-chat></div>
+          <div class="form-actions"><button type="submit" class="btn primary needs-token">Salva</button><button type="button" class="btn danger needs-token" data-clear>Rimuovi</button><span class="muted" data-msg role="status"></span></div>
+        </form>
+
+        <form class="card channel" data-channel="whatsapp" autocomplete="off">
+          <h3>WhatsApp <span class="sec-state" data-state="WHATSAPP_KEY"></span></h3>
+          <label class="row">Numero con prefisso <input type="tel" name="WHATSAPP_PHONE" placeholder="+39 333 1234567"></label>
+          <label class="row">API key CallMeBot <input type="text" name="WHATSAPP_KEY" placeholder="es. 1234567"></label>
+          <p class="hint">Servizio gratuito di terzi: attivalo sul tuo numero seguendo <a href="https://www.callmebot.com/blog/free-api-whatsapp-messages/" target="_blank" rel="noopener">le istruzioni di CallMeBot</a>.</p>
+          <div class="form-actions"><button type="submit" class="btn primary needs-token">Salva</button><button type="button" class="btn danger needs-token" data-clear>Rimuovi</button><span class="muted" data-msg role="status"></span></div>
+        </form>
+
+        <div class="card">
+          <h3>Prova le notifiche</h3>
+          <p class="hint">Invia un messaggio di prova su tutti i canali salvati. Il risultato compare qui e nella scheda Notifiche dopo circa un minuto.</p>
+          <div class="form-actions"><button type="button" class="btn primary needs-token" id="testBtn">Invia notifica di prova</button><span id="testMsg" class="muted" role="status"></span></div>
+          <div id="testResult" class="test-result"></div>
+        </div>
+
+        <div class="card">
+          <h3>Backup</h3>
+          <p class="hint">Tutti i dati sono già salvati sul tuo repository GitHub. Puoi anche scaricarne una copia.</p>
+          <button type="button" class="btn" id="exportBtn">Scarica backup</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- COLLEGA DISPOSITIVO -->
+  <dialog id="connectDlg" aria-labelledby="cTitle">
+    <form method="dialog" id="connectForm" class="pad">
+      <h2 id="cTitle">Collega questo dispositivo</h2>
+      <p class="hint">Incolla il token GitHub che hai creato durante l'installazione. Resta salvato solo in questo browser e serve per modificare avvisi e profilo.</p>
+      <label class="row">Token GitHub <input type="password" name="token" placeholder="github_pat_…" autocomplete="off" spellcheck="false" required></label>
+      <div class="form-actions">
+        <button type="submit" class="btn primary" value="ok">Collega</button>
+        <button type="button" class="btn" data-close>Annulla</button>
+        <span class="muted" data-msg role="status"></span>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- DETTAGLIO TITOLO -->
+  <dialog id="detail" aria-labelledby="dTitle">
+    <div class="d-head">
+      <img id="dImg" alt="" width="96" height="96">
+      <div class="d-meta">
+        <h2 id="dTitle"></h2>
+        <div id="dBadges" class="badges"></div>
+        <a id="dLink" href="#" target="_blank" rel="noopener">Apri su GameLife ↗</a>
+      </div>
+      <button class="icon-btn" id="dClose" aria-label="Chiudi">✕</button>
+    </div>
+    <div class="d-prices" id="dPrices"></div>
+    <div class="chart-card">
+      <div class="chart-top">
+        <div class="legend">
+          <span><i class="sw sw-new"></i>Nuovo</span>
+          <span><i class="sw sw-used"></i>Usato</span>
+          <span><i class="sw sw-dash"></i>Non disponibile</span>
+        </div>
+        <div class="ranges" id="ranges">
+          <button data-r="30">1M</button><button data-r="90">3M</button><button data-r="365">1A</button><button data-r="0" class="on">Tutto</button>
+        </div>
+      </div>
+      <div id="chart" class="chart"></div>
+      <div id="tooltip" class="tooltip" hidden></div>
+      <details class="table-view"><summary>Mostra lo storico in tabella</summary><div id="histTable"></div></details>
+    </div>
+    <form id="alertForm" class="alert-form">
+      <h3>Il tuo prezzo obiettivo</h3>
+      <div class="af-grid">
+        <label>Nuovo (€)<input type="number" inputmode="decimal" step="0.01" min="0" name="newTarget" placeholder="nessuno"></label>
+        <label>Usato (€)<input type="number" inputmode="decimal" step="0.01" min="0" name="usedTarget" placeholder="nessuno"></label>
+      </div>
+      <div class="quick" id="quick"></div>
+      <label class="check"><input type="checkbox" name="onlyAvailable"> Avvisami solo se il titolo è disponibile (o prenotabile)</label>
+      <div class="form-actions">
+        <button type="submit" class="btn primary">Salva avviso</button>
+        <button type="button" class="btn danger" id="delAlert">Rimuovi avviso</button>
+        <span id="afMsg" class="muted" role="status"></span>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="config.js"></script>
+  <script src="theme.js"></script>
+  <script src="splash.js"></script>
+  <script src="vendor/sealbox.min.js"></script>
+  <script src="gh.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

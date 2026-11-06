@@ -1,0 +1,86 @@
+name: GameLife Tracker
+
+on:
+  # ogni ora: lo script esegue il controllo completo solo una volta al giorno, dopo l'orario scelto nel profilo
+  schedule:
+    - cron: '7 * * * *'
+  # avvio manuale dalla dashboard ("Controlla ora", "Invia notifica di prova", nuovo avviso)
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 'auto, full, alerts oppure test'
+        required: false
+        default: 'full'
+      id:
+        description: 'ID del titolo (solo per alerts)'
+        required: false
+        default: ''
+
+permissions:
+  contents: write
+  actions: write
+
+concurrency:
+  group: gamelife-tracker
+  cancel-in-progress: false
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+      TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+      NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
+      EMAIL: ${{ secrets.EMAIL }}
+      WHATSAPP_PHONE: ${{ secrets.WHATSAPP_PHONE }}
+      WHATSAPP_KEY: ${{ secrets.WHATSAPP_KEY }}
+      DASHBOARD_URL: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/
+      MODE: ${{ github.event.inputs.mode || 'auto' }}
+      ALERT_ID: ${{ github.event.inputs.id || '' }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Controllo prezzi
+        id: fetch
+        run: |
+          set +e
+          if [ -n "$ALERT_ID" ]; then node scraper/check.js "$MODE" "--id=$ALERT_ID"; else node scraper/check.js "$MODE"; fi
+          code=$?
+          if [ $code -eq 42 ]; then echo "blocked=true" >> "$GITHUB_OUTPUT"; exit 0; fi
+          exit $code
+
+      - name: Installa il browser (solo se GameLife blocca la richiesta semplice)
+        if: steps.fetch.outputs.blocked == 'true'
+        run: |
+          npm install --no-save --no-audit --no-fund playwright@1.48.2
+          npx playwright install --with-deps chromium
+
+      - name: Controllo prezzi con il browser
+        if: steps.fetch.outputs.blocked == 'true'
+        run: node scraper/check.js "$MODE" --browser
+
+      - name: Salva i dati
+        if: always()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data
+          if git diff --cached --quiet; then echo "Nessun dato nuovo da salvare."; exit 0; fi
+          git commit -q -m "Dati aggiornati $(TZ=Europe/Rome date '+%Y-%m-%d %H:%M')"
+          for i in 1 2 3 4 5; do
+            git pull -q --rebase origin "${GITHUB_REF_NAME}" && git push -q origin "HEAD:${GITHUB_REF_NAME}" && exit 0
+            sleep $((i * 5))
+          done
+          exit 1
+
+      - name: Mantieni attivo il controllo programmato
+        if: always()
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh api -X PUT "repos/${GITHUB_REPOSITORY}/actions/workflows/tracker.yml/enable" --silent

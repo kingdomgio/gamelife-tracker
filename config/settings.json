@@ -1,0 +1,6 @@
+{
+  "checkHour": 9,
+  "timezone": "Europe/Rome",
+  "onlyAvailableDefault": true,
+  "pushEnabled": true
+}
