@@ -1,1 +1,1 @@
-[{"ts":1793961184847,"type":"error","title":"Controllo non riuscito","body":"GameLife non risponde nemmeno con il browser: page.waitForSelector: Timeout 30000ms exceeded."}]
+[{"ts":1793962125710,"type":"error","title":"Controllo non riuscito","body":"GameLife non risponde nemmeno con il browser: page.waitForSelector: Timeout 30000ms exceeded."},{"ts":1793961184847,"type":"error","title":"Controllo non riuscito","body":"GameLife non risponde nemmeno con il browser: page.waitForSelector: Timeout 30000ms exceeded."}]
