@@ -1,8 +1,8 @@
 {
   "lastError": {
-    "ts": 1793962125710,
+    "ts": 1793962461137,
     "message": "GameLife non risponde nemmeno con il browser: page.waitForSelector: Timeout 30000ms exceeded."
   },
-  "failCount": 2,
+  "failCount": 3,
   "lastErrorNotified": "2026-11-06"
 }
