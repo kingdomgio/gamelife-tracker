@@ -1,7 +1,8 @@
 {
   "lastError": {
-    "ts": 1793962461137,
-    "message": "GameLife non risponde nemmeno con il browser: page.waitForSelector: Timeout 30000ms exceeded."
+    "message": "GameLife chiede una verifica: apri www.gamelife.it in Chrome, poi premi «Controlla ora»",
+    "ts": 1793964030912,
+    "device": "Mac Giovanni"
   },
   "failCount": 3,
   "lastErrorNotified": "2026-11-06"
