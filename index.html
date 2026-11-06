@@ -38,7 +38,7 @@
       <span id="runChip" class="run-chip" hidden></span>
       <button id="themeBtn" class="icon-toggle" type="button" aria-label="Tema" title="Tema"></button>
       <button id="connectBtn" class="btn" hidden>Collega dispositivo</button>
-      <button id="runNow" class="btn primary" hidden>Controlla ora</button>
+      <button id="runNow" class="btn primary" hidden title="Chiede al computer con l'estensione di leggere subito il catalogo">Controlla ora</button>
     </div>
   </header>
 
@@ -58,8 +58,8 @@
     <section id="tab-catalog" class="tab">
       <div id="emptyState" class="empty" hidden>
         <h2>Nessun dato ancora</h2>
-        <p id="emptyText">Il primo controllo legge tutto il catalogo giochi PS5 di GameLife (circa 60 pagine) e impiega qualche minuto. Da lì in poi parte da solo ogni giorno.</p>
-        <button id="firstRun" class="btn primary">Avvia il primo controllo</button>
+        <p id="emptyText">Il catalogo giochi PS5 di GameLife viene letto dall'estensione Chrome sul tuo computer (circa 60 pagine, un paio di minuti). Installala e collegala al tuo GitHub: da lì in poi il controllo parte da solo ogni giorno.</p>
+        <button id="firstRun" class="btn primary">Chiedi il primo controllo al computer</button>
       </div>
       <div id="catalogWrap" hidden>
         <div class="kpis" id="kpis"></div>
@@ -157,7 +157,7 @@
           <label class="row">Orario del controllo giornaliero
             <select name="checkHour" id="checkHour"></select>
           </label>
-          <p class="hint">Il controllo gira sui server di GitHub, anche a computer spento. GitHub può avviarlo con qualche minuto di ritardo.</p>
+          <p class="hint">Il catalogo lo legge l'estensione Chrome sul computer, ogni giorno dopo quest'ora (serve il computer acceso con Chrome aperto; se era spento, recupera appena lo accendi). Avvisi e notifiche partono subito dopo da GitHub, per tutti i dispositivi.</p>
           <label class="check"><input type="checkbox" name="onlyAvailableDefault"> Nei nuovi avvisi, avvisami solo se il titolo è disponibile</label>
           <div class="form-actions"><button type="submit" class="btn primary needs-token">Salva</button><span class="muted" data-msg role="status"></span></div>
         </form>

@@ -22,11 +22,12 @@ let lastRun = null;
 
 // ---------- caricamento ----------
 async function loadAll() {
-  const [products, history, state, log, alerts, settings] = await Promise.all([
+  const [products, history, state, log, alerts, settings, request] = await Promise.all([
     GH.readJSON('data/products.json', {}), GH.readJSON('data/history.json', {}), GH.readJSON('data/state.json', {}),
     GH.readJSON('data/log.json', []), GH.readJSON('config/alerts.json', {}), GH.readJSON('config/settings.json', {}),
+    GH.readJSON('config/request.json', null),
   ]);
-  Object.assign(DB, { products: products || {}, history: history || {}, state: state || {}, log: log || [], alerts: alerts || {}, settings: Object.assign({ checkHour: 9, onlyAvailableDefault: true, pushEnabled: true }, settings) });
+  Object.assign(DB, { request, products: products || {}, history: history || {}, state: state || {}, log: log || [], alerts: alerts || {}, settings: Object.assign({ checkHour: 9, onlyAvailableDefault: true, pushEnabled: true }, settings) });
   if (GH.connected) { try { DB.secrets = await GH.listSecrets(); } catch { DB.secrets = []; } }
 }
 
@@ -59,10 +60,12 @@ function renderHeader() {
   const st = DB.state || {};
   const hour = String(+(DB.settings.checkHour ?? 9)).padStart(2, '0');
   let txt = st.lastRun
-    ? `Ultimo controllo ${tf.format(new Date(st.lastRun.finishedAt))} · ${st.lastRun.count.toLocaleString('it-IT')} titoli` + (st.lastRun.errors ? ` · ${st.lastRun.errors} pagine non lette` : '') + ` · automatico ogni giorno dalle ${hour}:00`
-    : `Nessun controllo ancora · automatico ogni giorno dalle ${hour}:00`;
+    ? `Ultimo controllo ${tf.format(new Date(st.lastRun.finishedAt))} · ${st.lastRun.count.toLocaleString('it-IT')} titoli` + (st.lastRun.device ? ` · da ${st.lastRun.device}` : '') + (st.lastRun.errors ? ` · ${st.lastRun.errors} pagine non lette` : '') + ` · ogni giorno dalle ${hour}:00`
+    : `Nessun controllo ancora · ogni giorno dalle ${hour}:00 dal computer con l'estensione`;
   const err = st.lastError && (!st.lastRun || st.lastError.ts > st.lastRun.finishedAt);
-  $('#runInfo').innerHTML = esc(txt) + (err ? ` · <span class="err">Errore: ${esc(st.lastError.message)}</span>` : '');
+  const staleH = st.lastRun ? (Date.now() - st.lastRun.finishedAt) / 3600e3 : 0;
+  const stale = staleH > 30 ? `Il computer non invia dati da ${Math.floor(staleH / 24)} giorni: accendilo e apri Chrome` : '';
+  $('#runInfo').innerHTML = esc(txt) + (err ? ` · <span class="err">Errore: ${esc(st.lastError.message)}</span>` : stale ? ` · <span class="err">${esc(stale)}</span>` : '');
   $('#connectBtn').hidden = GH.connected;
   $('#runNow').hidden = !GH.connected;
   $('#roBanner').hidden = GH.connected || !GH.repo.owner;
@@ -72,10 +75,19 @@ function renderHeader() {
   const r = lastRun;
   const recent = r && (Date.now() - new Date(r.updated_at || r.created_at).getTime() < 20 * 60000);
   const busy = r && r.status !== 'completed';
-  $('#runNow').disabled = !!busy;
-  if (busy) { chip.hidden = false; chip.className = 'run-chip busy'; chip.innerHTML = `<a href="${esc(r.html_url)}" target="_blank" rel="noopener">${r.status === 'queued' ? 'In coda su GitHub…' : 'Controllo in corso su GitHub…'}</a>`; }
+  const pending = requestPending();
+  $('#runNow').disabled = !!pending;
+  if (pending) { chip.hidden = false; chip.className = 'run-chip busy'; chip.textContent = 'Richiesta inviata al computer: parte entro 15 minuti, se è acceso con Chrome aperto'; }
+  else if (busy) { chip.hidden = false; chip.className = 'run-chip busy'; chip.innerHTML = `<a href="${esc(r.html_url)}" target="_blank" rel="noopener">${r.status === 'queued' ? 'Avvisi in coda su GitHub…' : 'Verifica degli avvisi su GitHub…'}</a>`; }
   else if (recent && r.conclusion === 'failure' && r.event !== 'schedule') { chip.hidden = false; chip.className = 'run-chip bad'; chip.innerHTML = `<a href="${esc(r.html_url)}" target="_blank" rel="noopener">Ultimo avvio non riuscito: dettagli</a>`; }
   else chip.hidden = true;
+}
+
+function requestPending() {
+  const rq = DB.request && +DB.request.requestedAt;
+  if (!rq || Date.now() - rq > 3 * 3600e3) return false;
+  const started = DB.state.lastRun ? DB.state.lastRun.startedAt || 0 : 0;
+  return rq > started;
 }
 
 let pollTimer = null, wasBusy = false;
@@ -85,10 +97,10 @@ async function pollRuns(fast) {
     const rs = await GH.runs(3);
     lastRun = rs[0] || null;
     const busy = lastRun && lastRun.status !== 'completed';
-    if (wasBusy && !busy) { await loadAll(); renderAll(); }
-    wasBusy = !!busy;
-    renderHeader();
-    pollTimer = setTimeout(() => pollRuns(), busy || fast ? 12000 : 300000);
+    const pending = requestPending();
+    if ((wasBusy && !busy) || pending) { await loadAll(); renderAll(); }
+    wasBusy = !!busy || requestPending();
+    pollTimer = setTimeout(() => pollRuns(), busy || fast ? 12000 : requestPending() ? 45000 : 300000);
   } catch { pollTimer = setTimeout(() => pollRuns(), 300000); }
 }
 
@@ -180,7 +192,7 @@ function renderAll() {
   $('#firstRun').hidden = !GH.connected;
   if (!GH.connected && !has) $('#emptyText').textContent = IS_PRIVATE
     ? 'Il tuo repository è privato: collega questo dispositivo (Profilo → Collega questo dispositivo) per vedere prezzi e avvisi.'
-    : 'Il primo controllo non è ancora stato fatto. Collega questo dispositivo dal Profilo per avviarlo, oppure attendi il controllo automatico.';
+    : 'Il primo controllo non è ancora stato fatto: lo esegue l\'estensione Chrome sul computer appena la colleghi al tuo GitHub.';
   $('#alertCount').textContent = Object.keys(DB.alerts).length;
   renderHeader();
   if (has) { renderKpis(); renderList(); }
@@ -466,8 +478,10 @@ function bind() {
   const runNow = async () => {
     if (!requireToken()) return;
     $('#runNow').disabled = true; $('#firstRun').disabled = true;
-    try { await GH.dispatch('full'); lastRun = { status: 'queued', html_url: `https://github.com/${GH.repo.owner}/${GH.repo.repo}/actions`, created_at: new Date().toISOString() }; wasBusy = true; renderHeader(); setTimeout(() => pollRuns(true), 5000); }
-    catch (err) { alert(err.message); }
+    try {
+      DB.request = await GH.updateJSON('config/request.json', () => ({ requestedAt: Date.now(), from: IS_NATIVE ? 'app Android' : (navigator.userAgentData && navigator.userAgentData.mobile) || /Mobi/i.test(navigator.userAgent) ? 'telefono' : 'browser' }), 'Richiesta di controllo');
+      renderHeader(); setTimeout(() => pollRuns(true), 45000);
+    } catch (err) { alert(err.message); }
     finally { $('#firstRun').disabled = false; }
   };
   $('#runNow').addEventListener('click', runNow);
